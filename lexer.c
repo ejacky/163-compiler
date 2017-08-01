@@ -14,12 +14,14 @@ struct token *nextToken(FILE *file) {
 	struct token *token = (struct token*)(malloc(sizeof(*token)));
 
 	char c = getc(file);
+			
 	switch (c) {
 	case EOF:
 		token->row = 0;
 		token->column = 0;
 		token->k = END;
 		token->lexeme = "end";
+		break;
 	case 0:
 	case 1:
 	case 2:
@@ -52,6 +54,7 @@ struct token *nextToken(FILE *file) {
 			token->row += 1;
 		}
 		token->k = NUM;
+		printf("test");
 		break;
 	case 'i':
 		c = getc(file);
@@ -69,6 +72,9 @@ struct token *nextToken(FILE *file) {
 				token->row = 0;
 				token->column += 1;
 			}
+					printf("haha");
+					break;
+			//printf("%s\n", token->lexeme);
 		default:
 			while (c != ' ' && c != '\t' && flag) {
 				if (c == '\n') {
@@ -81,6 +87,8 @@ struct token *nextToken(FILE *file) {
 				c = getc(file);
 				token->row += 1;
 			}
+					printf("ifx %c", c);exit(0);break;
+			//printf("%s\n", token->lexeme);
 		}
 	default:
 		token->k = ID;
@@ -90,7 +98,10 @@ struct token *nextToken(FILE *file) {
 			c = getc(file);
 			token->row += 1;
 		}
+		printf("%s\n", token->lexeme);
+		break;
 	};
+	//printf("nimei");exit(0);
 	return (struct token *)token;
 }
 
@@ -98,8 +109,12 @@ int main()
 {
 	char c;
 	FILE *file;
+	printf("test");
 	file = fopen("test.txt", "r");
+
+	printf("test2");
 	struct token *token = nextToken(file);
+	printf("test3");exit(0);
 	while (token->k != EOF ) {
 		switch (token->k) {
 		case ID:
