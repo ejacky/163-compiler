@@ -52,7 +52,7 @@ void parse_T()
 {
   parse_F();
   char c = str[i];
-  while (c=='*'){
+  while (c=='*' || c=='/'){
     i++;
     parse_F();
     c = str[i];
@@ -64,7 +64,7 @@ void parse_E()
 {
   parse_T();
   char c = str[i];
-  while (c=='+'){
+  while (c=='+' || c=='-'){
     i++;
     parse_T();
     c = str[i];
@@ -100,7 +100,7 @@ int main (char argc, char **argv)
   e = "(2)";
   parse(e);
 
-  e = "(3+4*5))";
+  e = "(3+4*5)";
   parse(e);
 
   e = "(8-2)*3";
