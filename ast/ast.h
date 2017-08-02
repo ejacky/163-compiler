@@ -4,7 +4,10 @@
 enum Exp_Kind_t{
   EXP_INT,
   EXP_ADD,
-  EXP_TIMES};
+  EXP_TIMES,
+  EXP_SUB,
+  EXP_DIVIDE
+  };
 
 /*
    E -> n
@@ -17,6 +20,7 @@ struct Exp_t{
 };
 // all operations on "Exp"
 void Exp_print (Exp_t exp);
+int Exp_calculator(Exp_t exp);
 int Exp_numNodes (Exp_t exp);
 
 typedef struct Exp_Int *Exp_Int;
@@ -41,6 +45,22 @@ struct Exp_Times{
   Exp_t right;
 };
 Exp_t Exp_Times_new (Exp_t left, Exp_t right);
+
+typedef struct Exp_Sub *Exp_Sub;
+struct Exp_Sub{
+  enum Exp_Kind_t kind;
+  Exp_t left;
+  Exp_t right;
+};
+Exp_t Exp_Sub_new (Exp_t left, Exp_t right);
+
+typedef struct Exp_Divide *Exp_Divide;
+struct Exp_Divide{
+  enum Exp_Kind_t kind;
+  Exp_t left;
+  Exp_t right;
+};
+Exp_t Exp_Divide_new (Exp_t left, Exp_t right);
 
 
 
