@@ -66,7 +66,6 @@ Type_t check_exp (Exp_t exp)
     case EXP_TRUE :
     case EXP_FALSE : return TYPE_BOOL;
     case EXP_ID: 
-      //Type_Kind_t t = Table_lookup(exp->id);
       Exp_Id p = (Exp_Id)exp;
       //Exp_Add p = (Exp_Add)exp;
       if (Table_lookup(p->id) == -1) {
@@ -74,8 +73,9 @@ Type_t check_exp (Exp_t exp)
           exit (0);
       } else return Table_lookup(p->id);
     case EXP_ADD:
-      Type_Kind_t left = check_exp(exp->left);
-      Type_Kind_t right = check_exp(exp->right);
+      Exp_Add p = (Exp_Add)exp;
+      Type_Kind_t left = check_exp(p->left);
+      Type_Kind_t right = check_exp(p->right);
       if (left != TYPE_INT || right != TYPEO_INT) {
           fprintf (stderr, "dont match");
           exit (0);
