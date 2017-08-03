@@ -14,6 +14,7 @@ int main (int argc, char **argv)
     printf ("%d\n", v);
   printf ("%d\n", v);
   */
+  //yypars  e();
   yyparse();
   printf ("lex and parse finished\n");
   

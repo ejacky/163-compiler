@@ -61,7 +61,35 @@ void check_decs(List_t decs)
 // Your job:
 Type_t check_exp (Exp_t exp)
 {
-  TODO();
+  switch (exp->kind) {
+    case EXP_INT : return TYPE_INT;
+    case EXP_TRUE :
+    case EXP_FALSE : return TYPE_BOOL;
+    case EXP_ID: 
+      Type_Kind_t t = Table_lookup(exp->id);
+      if (t == -1) {
+          fprintf (stderr, "id not found");
+          exit (0);
+      } else return t;
+    case EXP_ADD:
+      Type_Kind_t left = check_exp(exp->left);
+      Type_Kind_t right = check_exp(exp->right);
+      if (left != TYPE_INT || right != TYPEO_INT) {
+          fprintf (stderr, "dont match");
+          exit (0);
+      }
+      else 
+          return TYPE_INT;
+    case EXP_AND:
+      Type_Kind_t left = check_exp(exp->left);
+      Type_Kind_t right = check_exp(exp->right);
+      if (left != TYPE_INT || right != TYPEO_INT) {
+          fprintf (stderr, "dont match");
+          exit (0);
+      }
+      else 
+          return TYPE_INT;
+  }
 }
 
 ////////////////////////////////////////
@@ -70,7 +98,27 @@ Type_t check_exp (Exp_t exp)
 // Your job:
 void check_stm (Stm_t stm)
 {
-  TODO();
+  switch (s->kind) {
+    case STM_ASSIGN:
+      Type_t t1 = Table_lookup(s->id);
+      Type_t t2 = check_exp(s->exp);
+      if (t1 != t2) {
+          fprintf (stderr, "dont match");
+          exit (0);
+      } else return TYPE_INT;
+    case STM_PRINTI:
+      Type_t t = check_exp(s->exp);
+      if (t != TYPE_INT) {
+          fprintf (stderr, "dont match");
+          exit (0);
+      } else return TYPE_INT;
+    case STM_PRINTB:
+      Type_t t = check_exp(s->exp);
+      if (t != TYPE_BOOL) {
+          fprintf (stderr, "dont match");
+          exit (0);
+      } else return TYPE_BOOL;
+  }
 }
 
 void check_stms(List_t stms)
@@ -81,7 +129,7 @@ void check_stms(List_t stms)
     stms = stms->next;
   }
   return;
-  TODO();
+  //TODO();
 }
 
 
