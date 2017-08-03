@@ -65,32 +65,39 @@ Type_t check_exp (Exp_t exp)
     case EXP_INT : return TYPE_INT;
     case EXP_TRUE :
     case EXP_FALSE : return TYPE_BOOL;
-    case EXP_ID: 
+    case EXP_ID: {
       Exp_Id p = (Exp_Id)exp;
       //Exp_Add p = (Exp_Add)exp;
       if (Table_lookup(p->id) == -1) {
           fprintf (stderr, "id not found");
           exit (0);
-      } else return Table_lookup(p->id);
-    case EXP_ADD:
+      } else return (Type_t)Table_lookup(p->id);
+    }
+
+    case EXP_ADD:{
       Exp_Add p = (Exp_Add)exp;
-      Type_Kind_t left = check_exp(p->left);
-      Type_Kind_t right = check_exp(p->right);
-      if (left != TYPE_INT || right != TYPEO_INT) {
-          fprintf (stderr, "dont match");
+      
+      Type_t left = check_exp(p->left);
+      Type_t right = check_exp(p->right);
+      if (left != TYPE_INT || right != TYPE_INT) {
+          fprintf (stderr, "dont match Exp_Add");
           exit (0);
       }
       else 
           return TYPE_INT;
-    case EXP_AND:
-      Type_Kind_t left = check_exp(exp->left);
-      Type_Kind_t right = check_exp(exp->right);
-      if (left != TYPE_INT || right != TYPEO_INT) {
-          fprintf (stderr, "dont match");
+    }
+
+    case EXP_AND:{
+      Exp_And p = (Exp_And)exp;
+      Type_t left = check_exp(p->left);
+      Type_t right = check_exp(p->right);
+      if (left != TYPE_INT || right != TYPE_INT) {
+          fprintf (stderr, "dont match Exp_And");
           exit (0);
       }
       else 
           return TYPE_INT;
+    }
   }
 }
 
@@ -98,28 +105,37 @@ Type_t check_exp (Exp_t exp)
 // stm
 
 // Your job:
-void check_stm (Stm_t stm)
+void check_stm (Stm_t s)
 {
   switch (s->kind) {
-    case STM_ASSIGN:
-      Type_t t1 = Table_lookup(s->id);
-      Type_t t2 = check_exp(s->exp);
+    case STM_ASSIGN: {
+      Stm_Assign p = (Stm_Assign)s;
+      Type_t t1 = Table_lookup(p->id);
+      Type_t t2 = check_exp(p->exp);
       if (t1 != t2) {
-          fprintf (stderr, "dont match");
+          fprintf (stderr, "dont match Stm_Assign");
           exit (0);
-      } else return TYPE_INT;
-    case STM_PRINTI:
-      Type_t t = check_exp(s->exp);
+      } 
+    }
+
+    case STM_PRINTI: {
+      Stm_Printi p = (Stm_Printi)s;
+      Type_t t = check_exp(p->exp);
       if (t != TYPE_INT) {
-          fprintf (stderr, "dont match");
+          fprintf (stderr, "dont match STM_PRINTI, type is %d\n", t);
           exit (0);
-      } else return TYPE_INT;
-    case STM_PRINTB:
-      Type_t t = check_exp(s->exp);
+      } 
+    }
+    case STM_PRINTB: {
+      Stm_Printb p = (Stm_Printb)s;
+      Type_t t = check_exp(p->exp);
       if (t != TYPE_BOOL) {
-          fprintf (stderr, "dont match");
+          fprintf (stderr, "dont match STM_PRINTB");
           exit (0);
-      } else return TYPE_BOOL;
+      } 
+    }
+    default :
+      break;
   }
 }
 
