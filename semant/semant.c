@@ -116,6 +116,7 @@ void check_stm (Stm_t s)
           fprintf (stderr, "dont match Stm_Assign");
           exit (0);
       } 
+      return ;
     }
 
     case STM_PRINTI: {
@@ -125,6 +126,7 @@ void check_stm (Stm_t s)
           fprintf (stderr, "dont match STM_PRINTI, type is %d\n", t);
           exit (0);
       } 
+      return;
     }
     case STM_PRINTB: {
       Stm_Printb p = (Stm_Printb)s;
@@ -132,7 +134,8 @@ void check_stm (Stm_t s)
       if (t != TYPE_BOOL) {
           fprintf (stderr, "dont match STM_PRINTB");
           exit (0);
-      } 
+      }
+      return; 
     }
     default :
       break;
